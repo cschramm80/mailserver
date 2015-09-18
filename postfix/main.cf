@@ -25,7 +25,7 @@ smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3
 smtpd_tls_protocols=!SSLv2,!SSLv3
 
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-myhostname = mx.schrammdocarmo.com
+myhostname = mx.example.net
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination = mail, localhost.localdomain, localhost

@@ -1,0 +1,14 @@
+# This file is commonly accessed via passdb {} or userdb {} section in
+# conf.d/auth-sql.conf.ext
+
+# Database driver: mysql, pgsql, sqlite
+driver = mysql
+
+# Database connection string. This is driver-specific setting.
+connect = host=127.0.0.1 dbname=mail user=YOUR_USERNAME password=YOUR_PASSWORD
+
+# Default password scheme.
+default_pass_scheme = SHA512-CRYPT
+
+# passdb query to retrieve the password. It can return fields:
+password_query = SELECT email as user, password FROM virtual_users WHERE email='%u';
