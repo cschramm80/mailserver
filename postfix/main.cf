@@ -1,0 +1,46 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+
+smtpd_tls_security_level = may
+smtpd_tls_received_header = yes
+
+# your SSL certicate
+smtpd_tls_cert_file = /etc/postfix/cert/mail.pem
+smtpd_tls_key_file = /etc/postfix/cert/ssl.key
+smtpd_tls_CAfile = /etc/postfix/cert/ca.pem
+smtpd_tls_CApath = /etc/ssl/certs
+
+smtpd_tls_auth_only = yes
+smtpd_use_tls = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, reject_rbl_client sbl-xbl.spamhaus.org, reject_rbl_client bl.spamcop.net
+
+smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3
+smtpd_tls_protocols=!SSLv2,!SSLv3
+
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+myhostname = mx.schrammdocarmo.com
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+mydestination = mail, localhost.localdomain, localhost
+relayhost = 
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 94.23.248.218/32 178.33.39.90/32 151.80.199.240/30 
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
+virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf
+
+# if you use postfix behind haproxy:
+# postscreen_upstream_proxy_protocol = haproxy
+
